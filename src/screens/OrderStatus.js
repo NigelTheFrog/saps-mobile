@@ -33,7 +33,7 @@ const OrderStatus = ({ navigation }) => {
           color={colors.offgreen}
           onPress={() => {
             if (customer.isExist === 0) {
-              navigation.navigate('Marketing');
+              navigation.navigate('Marketing', { ordered: true });
             } else {
               dispatch(customerSlice.actions.setMarketer(0));
               navigation.navigate('QueueCode', { ordered: true });

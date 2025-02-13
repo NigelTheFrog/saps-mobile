@@ -38,7 +38,7 @@ const authInitialState = {
 };
 
 const systemInitialState = {
-  host: 'http://192.168.3.24',
+  host: 'http://192.168.88.56/saps-sso-bpn/public',
 };
 
 export const system = createSlice({

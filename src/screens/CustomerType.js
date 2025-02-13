@@ -6,6 +6,7 @@ import colors from '../constants/colors';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch } from 'react-redux';
 import { customer } from '../store';
+import request from '../utils/request';
 
 const { width } = Dimensions.get('window');
 
@@ -14,7 +15,19 @@ const CustomerType = ({ navigation }) => {
 
   const onIndividual = () => {
     dispatch(customer.actions.setType('individual'));
-    navigation.navigate('QueueCode');
+    request
+      .get('/getStoreStatus')
+      .then(r => {
+        return r.json();
+      })
+      .then((responseJson) => {
+        if (responseJson['isManual'] == 1) {
+          navigation.navigate('Marketing', { ordered: false });
+        } else {          
+          navigation.navigate('QueueCode');
+        }
+      });
+
   };
 
   const onInstitution = () => {

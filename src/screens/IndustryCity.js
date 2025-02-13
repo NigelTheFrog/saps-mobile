@@ -11,6 +11,7 @@ import request from '../utils/request';
 const IndustryCity = ({ navigation }) => {
   const dispatch = useDispatch();
   const customer = useSelector(state => state.customer);
+  const type = useSelector(state => state.customer.type)
   const [disabled, setDisabled] = React.useState(true);
   const [city, setCity] = React.useState();
   const [cities, setCities] = React.useState([
@@ -21,10 +22,24 @@ const IndustryCity = ({ navigation }) => {
     { label: 'Pilih bidang industri', value: 0 },
   ]);
 
+
+  const a = React
+
   const onContinue = () => {
     dispatch(customerStore.actions.setCity(city));
     dispatch(customerStore.actions.setIndustry(industry));
-    navigation.navigate('QueueCode');
+    request
+      .get('/getStoreStatus')
+      .then(r => {
+        return r.json();
+      })
+      .then((responseJson) => {
+        if (responseJson['isManual'] == 1) {
+          navigation.navigate('Marketing', { ordered: false });
+        } else {
+          navigation.navigate('QueueCode');
+        }
+      });
   };
 
   React.useEffect(() => {

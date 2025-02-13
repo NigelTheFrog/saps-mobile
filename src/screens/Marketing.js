@@ -20,12 +20,15 @@ import { getHost } from '../utils/host';
 const { width } = Dimensions.get('window');
 
 
-const Marketing = ({ navigation }) => {
+const Marketing = ({ navigation, route }) => {
   const store_id = useSelector(state => state.auth.store_id);
-
+  const type = useSelector(state => state.customer.type);
+  const city_id = useSelector(state => state.customer.city_id);
+  const industry_id = useSelector(state => state.customer.industry_id);
   const dispatch = useDispatch();
   const [rawData, setRawData] = React.useState([]);
   const [data, setData] = React.useState([]);
+  const ordered = route.params?.ordered;
 
   const onSearch = text => {
     const searchFilter = item =>
@@ -39,7 +42,17 @@ const Marketing = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    request
+    if(type == 'institution') {
+      request
+      .post(`/getMarketerInstitution`,{ cityId: city_id, industryId: industry_id })
+      .then(r => r.json())
+      .then(r => {
+        setRawData(r);
+        setData(r);
+      })
+      .catch();
+    } else {
+      request
       .get(`/marketer?store_id=${store_id}`)
       .then(r => r.json())
       .then(r => {
@@ -47,6 +60,8 @@ const Marketing = ({ navigation }) => {
         setData(r);
       })
       .catch();
+    }
+   
   }, [store_id]);
 
   const MarketerCard = ({ id, name, phone, code }) => (
@@ -56,7 +71,7 @@ const Marketing = ({ navigation }) => {
         w={width * 0.4}
         onPress={() => {
           dispatch(customer.actions.setMarketer(id));
-          navigation.navigate('QueueCode', { ordered: true });
+          navigation.navigate('QueueCode', { ordered: ordered });
         }}>
         <Image
           style={{ width: 64, height: 64, marginBottom: 16 }}
@@ -115,7 +130,7 @@ const Marketing = ({ navigation }) => {
             id={item.id}
             name={item.name}
             phone={item.phone}
-            code={item.code}
+            code={item.kodeSales}
             type={item.type}
           />
         )}

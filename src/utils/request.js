@@ -2,7 +2,7 @@ import { store } from '../store';
 
 export class Fetch {
   getBaseUrl() {
-    return (store.getState().system?.host || 'http://192.168.3.24') + '/api';
+    return (store.getState().system?.host || 'http://192.168.88.56/saps-sso-bpn/public') + '/api';
   }
 
   addTokenToHeader(plain) {

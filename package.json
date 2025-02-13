@@ -23,6 +23,7 @@
     "react-native": "0.64.4",
     "react-native-code-push": "^7.0.1",
     "react-native-dropdown-picker": "^4.0.9",
+    "react-native-element-dropdown": "^2.12.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
